@@ -1,0 +1,132 @@
+/* Implement all the functions of a dictionary (ADT) using hashing and handle collisions using chaining with / without replacement.
+ Data: Set of (key, value) pairs, Keys are mapped to values, Keys must be
+ comparable, Keys must be unique Standard Operations: Insert(key, value), Find(key), Delete(key)
+*/
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+struct dict
+{
+    char word[20];
+    char mean[20];
+    int chain;
+
+} array[10];
+class dict_hash
+{
+public:
+    dict ht[10];
+    int address, temp,count = 0;
+    string class_word, class_meaning;
+
+    dict_hash(dict d)
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            strcpy(array[i].word, "");
+            array[i].chain = -1;
+        }
+    }
+    int calculate_assi(dict d)
+    {
+        int s = 0;
+        for (int i = 0; d.word[i] != '\0'; i++)
+        {
+            s = s + d.word[i];
+        }
+        address = s % 10;
+
+        return address;
+    }
+        int var = 0;
+    int insert(int position, dict d)
+    {
+        temp = position;
+        while (1)
+        {
+            if (strcmp(array[position].word, "") == 0)
+            {
+                array[position] = d;
+                count++;
+                // if (var = 1)
+                // {
+                //     array[temp].chain = position;
+                //     cout<<"hi\n";
+                //     var = 0;
+                //     break;
+                // }
+                break;
+            }
+            else
+            {
+                position++;
+                
+                cout<<temp<<" ,,"<<endl;
+                cout<<position<<" ,,"<<endl;
+                var = 1;
+                if (position == 10)
+                {
+                    position = 0;
+                    
+                }
+            }
+            if (count == 10)
+            {
+                cout << "Hash Table if Full ";
+                break;
+            }
+        }
+        return 0;
+    }
+    void print(dict d)
+    {
+        for (int i = 0; i < 10; i++)
+        {
+
+            cout << array[i].word << "-->" << array[i].mean << "-->" << array[i].chain << endl;
+        }
+    }
+};
+
+int main()
+{
+    dict obj;
+    dict_hash object(obj);
+    int position;
+    char choise;
+    int num;
+    do
+    {
+        cout << "1. Insert" << endl;
+        cout << "2. Find" << endl;
+        cout << "3. Delete" << endl;
+        cout << "4. Print" << endl;
+        cin >> num;
+        switch (num)
+        {
+        case 1:
+            cout << "Enter the word ";
+            cin >> obj.word;
+            cout << "Enter the meaning ";
+            cin >> obj.mean;
+            position = object.calculate_assi(obj);
+            object.insert(position, obj);
+
+            break;
+
+        case 4:
+            object.print(obj);
+            break;
+
+        default:
+            cout << "Wrong choise";
+            break;
+        }
+        cout << "Do you want to continue (y/n) ";
+        cin >> choise;
+    } while (choise == 'y');
+
+    return 0;
+}
